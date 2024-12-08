@@ -139,6 +139,93 @@ const response = await fetch('/ai/chat', {
 });
 ```
 
+
+## 🖥️ Frontend Implementation
+
+### Tool Handling System
+
+#### Tool State Management
+```javascript
+function getActiveToolTypes() {
+    const activeToggles = document.querySelectorAll('.toggle.active, .tool-toggle.active');
+    return Array.from(activeToggles).map(toggle => toggle.dataset.tool);
+}
+
+// Tool states are tracked in the UI and passed to backend
+const toolStates = {};
+document.querySelectorAll('.tool-toggle').forEach(toggle => {
+    const toolType = toggle.getAttribute('data-tool');
+    toolStates[toolType] = toggle.classList.contains('active');
+});
+```
+
+#### Message Handling
+```javascript
+async function sendMessage() {
+    // ... existing code ...
+    const requestBody = {
+        session_id: session_id,
+        user_id: userId,
+        message: message,
+        tools: activeTools,
+        tool_states: toolStates,
+        custom_prompt: localStorage.getItem('custom_prompt'),
+        custom_temp: localStorage.getItem('custom_temp')
+    };
+    
+    // Handle different response types
+    if (data.finish_reason === 'stop') {
+        displayMessage(data.response, 'ai-message');
+    } else if (data.finish_reason === 'tool_calls') {
+        await handleToolCalls(data, skeletonLoader);
+    }
+}
+```
+
+### Session Management
+
+#### Initial Session Setup
+```javascript
+window.onload = async function() {
+    const session_id = generateUUID();
+    localStorage.setItem('session_id', session_id);
+    
+    // Initialize timezone information
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const today = new Date().toLocaleString('en-US', { timeZone: userTimeZone });
+    
+    // Set up context reprompt
+    const reprompt = `Hidden Context: Timezone ${userTimeZone}, Current time ${today}`;
+}
+```
+
+### UI Components
+
+#### Chat Interface
+```html
+<section class="chat-section">
+    <main class="chat-content">
+        <!-- Message display area -->
+    </main>
+    <footer class="chat-input">
+        <textarea class="message-input"></textarea>
+        <button class="send-button">Send</button>
+    </footer>
+</section>
+```
+
+#### Tool Toggle Interface
+```html
+<div class="tools-list">
+    <div class="tool-item">
+        <div class="tool-info">
+            <img src="tool-icon.png" class="tool-icon">
+            <div class="tool-name">Tool Name</div>
+        </div>
+        <div class="tool-toggle" data-tool="tool-id"></div>
+    </div>
+</div>
+
 ## 🔧 Technical Implementation
 
 ### Tool System Architecture
@@ -309,24 +396,10 @@ The system implements comprehensive error handling:
 - Input validation
 - Secure environment variable management
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
 
 ## 📝 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-- OpenAI for GPT models
-- Perplexity AI for alternative AI processing
-- Google Cloud Platform for API services
-- MongoDB for database services
 
 ## ⚠️ Important Notes
 
@@ -335,5 +408,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Regular token refresh for Google OAuth
 - Monitor API usage and costs
 - Regular security audits recommended
-```
+
+
 
