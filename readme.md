@@ -139,42 +139,6 @@ const response = await fetch('/ai/chat', {
 });
 ```
 
-## 🔒 Security
-
-- OAuth2.0 authentication
-- Session management
-- Secure token handling
-- Rate limiting (recommended to implement)
-- Input validation
-- Secure environment variable management
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-- OpenAI for GPT models
-- Perplexity AI for alternative AI processing
-- Google Cloud Platform for API services
-- MongoDB for database services
-
-## ⚠️ Important Notes
-
-- Ensure proper error handling in production
-- Implement rate limiting for API endpoints
-- Regular token refresh for Google OAuth
-- Monitor API usage and costs
-- Regular security audits recommended
-
 ## 🔧 Technical Implementation
 
 ### Tool System Architecture
@@ -334,10 +298,42 @@ The system implements comprehensive error handling:
    - Rate limiting implementation
    - Request queuing
    - Response caching where appropriate
+
+
+## 🔒 Security
+
+- OAuth2.0 authentication
+- Session management
+- Secure token handling
+- Rate limiting (recommended to implement)
+- Input validation
+- Secure environment variable management
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- OpenAI for GPT models
+- Perplexity AI for alternative AI processing
+- Google Cloud Platform for API services
+- MongoDB for database services
+
+## ⚠️ Important Notes
+
+- Ensure proper error handling in production
+- Implement rate limiting for API endpoints
+- Regular token refresh for Google OAuth
+- Monitor API usage and costs
+- Regular security audits recommended
 ```
-
-This README provides a comprehensive overview of your project, its features, setup instructions, and usage guidelines. The structure follows best practices for documentation and includes all necessary information for developers to understand and use the system.
-
-Would you like me to expand on any particular section or add more specific technical details?
-
 
