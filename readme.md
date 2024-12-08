@@ -174,6 +174,166 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Regular token refresh for Google OAuth
 - Monitor API usage and costs
 - Regular security audits recommended
+
+## 🔧 Technical Implementation
+
+### Tool System Architecture
+
+#### Tool Handler
+The tool handler manages parallel execution of AI tool calls:
+- Processes multiple tool calls simultaneously using `Promise.all`
+- Handles tool call responses and feeds them back to the AI
+- Manages skeleton loading states during tool execution
+
+```javascript
+const toolResults = await Promise.all(toolCallPromises);
+const response = await fetch('/ai/tool-response', {
+    method: 'POST',
+    body: JSON.stringify({
+        session_id: sessionId,
+        tool_responses: toolResults
+    })
+});
+```
+
+#### Tool Executor
+Implements individual tool functionalities:
+- Knowledge Base queries via external API
+- Web scraping using Puppeteer
+- Google service integrations
+- Perplexity AI searches
+
+### Database Structure
+
+#### Chat Sessions
+MongoDB collections maintain chat history and session data:
+
+```javascript
+const messageSchema = {
+    role: String,
+    content: String,
+    name: String,
+    function_call: Mixed,
+    tool_calls: [Mixed],
+    tool_call_id: String
+}
+```
+
+#### User Model
+Stores user authentication and token data:
+
+```javascript
+const userSchema = {
+    email: String,
+    googleId: String,
+    accessToken: String,
+    refreshToken: String,
+    // ... other fields
+}
+```
+
+### Additional Endpoints
+
+#### History Management
+- `GET /ai/history/:session_id`
+  - Retrieves complete chat history for a session
+  - Includes tool calls and responses
+  - Supports pagination
+
+- `GET /ai/history/list/:user_id`
+  - Lists all chat sessions for a user
+  - Returns session metadata and last message
+
+#### AI Utilities
+- `POST /ai/scrape`
+  - Web scraping endpoint using Puppeteer
+  - Handles JavaScript-rendered content
+  - Returns cleaned and formatted text
+
+- `GET /ai/suggest`
+  - AI-powered content suggestions
+  - Uses chat context for relevant recommendations
+  - Supports custom suggestion parameters
+
+### Integration Examples
+
+#### Chat Implementation
+
+```javascript
+async function sendMessage() {
+    const requestBody = {
+        session_id: session_id,
+        user_id: userId,
+        message: message,
+        tools: window.toolsModule.tools,
+        custom_prompt: localStorage.getItem('custom_prompt'),
+        custom_temp: localStorage.getItem('custom_temp')
+    };
+    
+    const response = await fetch('/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+    });
+}
+```
+
+#### Tool Response Handling
+
+```javascript
+async function handleToolCalls(data, skeletonLoader) {
+    const toolResults = await Promise.all(toolCallPromises);
+    const response = await fetch('/ai/tool-response', {
+        method: 'POST',
+        body: JSON.stringify({
+            session_id: sessionId,
+            tool_responses: toolResults
+        })
+    });
+    
+    if (response.ok) {
+        displayMessage(responseData.response, 'ai-message');
+    }
+}
+```
+
+### Authentication Flow
+
+1. **Google OAuth2.0**
+   - Initial authentication via `/auth/google`
+   - Callback handling and token storage
+   - Automatic token refresh mechanism
+
+2. **Session Management**
+   - Express sessions for state management
+   - MongoDB session storage
+   - Secure token handling
+
+### Error Handling
+
+The system implements comprehensive error handling:
+- Network request failures
+- Tool execution errors
+- API rate limiting
+- Authentication failures
+- Database connection issues
+
+### Performance Considerations
+
+1. **Parallel Processing**
+   - Tool calls execute simultaneously
+   - Response aggregation and processing
+   - Efficient memory management
+
+2. **Database Optimization**
+   - Indexed queries for chat history
+   - Efficient session storage
+   - Periodic cleanup of old sessions
+
+3. **API Management**
+   - Rate limiting implementation
+   - Request queuing
+   - Response caching where appropriate
 ```
 
 This README provides a comprehensive overview of your project, its features, setup instructions, and usage guidelines. The structure follows best practices for documentation and includes all necessary information for developers to understand and use the system.
