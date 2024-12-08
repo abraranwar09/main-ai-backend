@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //if we come to this page with no url params, redirect to login
+        if (!window.location.search) {
+            window.location.href = '/login';
+        }
+
+
+      // Function to parse query parameters
+      function getQueryParams() {
+        const params = {};
+        window.location.search.substring(1).split("&").forEach(pair => {
+          const [key, value] = pair.split("=");
+          params[key] = decodeURIComponent(value);
+        });
+        return params;
+      }
+
+      // Extract tokens from URL and store in localStorage
+      const params = getQueryParams();
+      if (params.accessToken && params.refreshToken && params.email) {
+        localStorage.setItem('authToken', params.accessToken);
+        localStorage.setItem('refreshToken', params.refreshToken);
+        localStorage.setItem('email', params.email);
+        localStorage.setItem('userId', params.userId);
+
+        //redirect to the home page
+        window.location.href = '/chat';
+      }
+    </script>
+</body>
+</html>
