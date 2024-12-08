@@ -1,14 +1,4 @@
-// Tool mapping object to define which functions belong to which tools
-const toolMapping = {
-    'calendar': ['getCalendarEvents', 'saveEvent'],
-    'gmail': ['listGmailMessages', 'getGmailMessage', 'sendGmailMessage'],
-    'web-search': ['performGoogleSearch'],
-    'perplexity': ['usePerplexity'],
-    'knowledge-base': ['checkKnowledgeBase'],
-    'web-scraper': ['scrapeWeb']
-};
-
-// Initialize tools array (keeping your existing tools array)
+// Keep only the tools array and remove toolMapping and getActiveTools
 const tools = [
     {
         type: "function",
@@ -214,19 +204,7 @@ const tools = [
     }
 ];
 
-// Function to get active tools based on active toggles
-function getActiveTools(activeToolTypes) {
-    return tools.filter(tool => {
-        const functionName = tool.function.name;
-        return activeToolTypes.some(toolType => 
-            toolMapping[toolType].includes(functionName)
-        );
-    });
-}
-
-// Make tools and functions available globally
+// Make tools available globally
 window.toolsModule = {
-    tools,
-    getActiveTools,
-    toolMapping
+    tools
 };

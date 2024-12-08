@@ -7,8 +7,7 @@ const chatHistorySchema = new mongoose.Schema({
     name: { type: String },
     messages: [messageSchema],
     created_at: { type: Date, default: Date.now },
-    updated_at: { type: Date, default: Date.now },
-    tool_states: { type: Map, of: Boolean, default: new Map() }
+    updated_at: { type: Date, default: Date.now }
 });
 
 const ChatHistory = mongoose.model('ChatHistory', chatHistorySchema);

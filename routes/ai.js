@@ -18,7 +18,7 @@ router.use(express.json());
 // Chat endpoint
 router.post('/chat', async (req, res) => {
     try {
-        const { message, session_id, tools, user_id, tool_states, custom_prompt, custom_temp } = req.body;
+        const { message, session_id, tools, user_id, custom_prompt, custom_temp } = req.body;
 
         if (!message || !user_id) {
             return res.status(400).json({
@@ -34,7 +34,6 @@ router.post('/chat', async (req, res) => {
                 user_id,
                 session_id,
                 name: chatName,
-                tool_states: new Map(Object.entries(tool_states || {})),
                 messages: [{
                     "role": "system", 
                     "content": custom_prompt || `
@@ -44,9 +43,6 @@ router.post('/chat', async (req, res) => {
                     `
                 }]
             });
-        } else {
-            // Update tool states
-            chatHistory.tool_states = new Map(Object.entries(tool_states || {}));
         }
 
         // Add user message to history
