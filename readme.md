@@ -225,6 +225,7 @@ window.onload = async function() {
         <div class="tool-toggle" data-tool="tool-id"></div>
     </div>
 </div>
+```
 
 ## 🔧 Technical Implementation
 
