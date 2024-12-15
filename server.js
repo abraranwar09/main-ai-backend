@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth'); // Import the auth routes
 const aiRoutes = require('./routes/ai'); // Import the ai routes
 const googleRoutes = require('./routes/google'); // Import the google routes
 const perplexityRoutes = require('./routes/perplexity'); // Import the perplexity routes
+const userRoutes = require('./routes/userRoutes'); // Add this line
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -42,6 +43,8 @@ app.use('/ai', aiRoutes);
 app.use('/google', googleRoutes);
 // Use the perplexity routes
 app.use('/perplexity', perplexityRoutes);
+// Use the user routes
+app.use('/users', userRoutes);
 
 // Function to start the server
 const startServer = async () => {

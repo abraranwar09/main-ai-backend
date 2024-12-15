@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OhanaPal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="chat.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.4/lottie.min.js"></script>
+</head>
+
+<body class="flex flex-col">
+    <video id="bgAnimation" class="absolute inset-0 z-0" autoplay muted loop>
+        <source src="../assets/starry-night-forest-mountains-moewalls-com.mp4" type="video/mp4">
+    </video> 
+    <div id="bgOverlay" class="absolute inset-0 z-1"></div>
+    <!-- Header -->
+    <header class="flex justify-between items-center p-6 fixed top-0 left-0 right-0 bg-opacity-80 z-10">
+        <button class="bg-white/10 p-4 rounded-full">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <img src="https://4eca5ada943fe5450f1b9f217373973c.cdn.bubble.io/f1731061485485x750911034910286100/ohana-only.png"
+            alt="OhanaPal Logo" class="h-10 w-auto">
+        <button class="bg-white/10 p-4 rounded-full">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M5 12h.01M12 12h.01M19 12h.01" />
+            </svg>
+        </button>
+    </header>
+
+    <!-- Spacer for fixed header -->
+    <div class="h-24"></div>
+
+    <!-- Listening Input -->
+    <div class="px-6 my-4 fixed top-24 left-0 right-0 z-10 hide" id="actionMessage">
+        <div class="listening-input rounded-full py-4 px-6 text-center text-lg max-w-xl mx-auto">
+            Go ahead, I'm Listening...
+        </div>
+    </div>
+
+    <!-- Spacer for fixed listening input -->
+    <div class="h-20"></div>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="flex flex-col items-center justify-center h-full relative">
+       
+        <div id="lottieAnimation" class="w-64 h-64 z-10"></div>
+        <h1 class="text-2xl text-center font-bold mt-4 animate__animated animate__fadeIn z-10">Welcome! I'm your OhanaPal</h1>
+        <p class="text-lg text-center mt-2 animate__animated animate__fadeIn z-10">Type or say hi to get started. I can help you with anything!</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 px-6 space-y-6 overflow-y-auto" id="mainContainer" style="max-height: calc(100vh - 300px);">
+        <!-- Skeleton Loader -->
+        <div id="skeletonLoader" class="skeleton-loader hide">
+            <div class="skeleton-avatar"></div>
+            <div class="skeleton-text"></div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation (Fixed) -->
+    <div class="fixed bottom-0 left-0 right-0 p-4">
+        <div class="bottom-nav mx-auto max-w-xs rounded-full p-2 flex justify-between items-center">
+            <button class="p-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                </svg>
+            </button>
+            <button class="ai-button p-4 rounded-full" id="talkButton">
+                <div class="w-8 h-8 bg-white/20 rounded-full"></div>
+            </button>
+            <button class="p-3" id="showInput">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                </svg>
+            </button>
+        </div>
+        <div id="messageInputContainer" class="message-input-container animate__animated animate__slideInUp hide">
+            <textarea class="message-input" id="messageInput" placeholder="Type your message..."></textarea>
+            <button class="send-button" id="sendButton">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    <script src="onload.js"></script>
+    <script src="../utilities/display.js"></script>
+    <script src="../utilities/tools.js"></script>
+    <script src="../utilities/tool_executor.js"></script>
+    <!-- <script src="../utilities/websocket.js"></script> -->
+    <script src="../utilities/tool_handler.js"></script>
+    <script src="chat.js"></script>
+    <script>
+    </script>
+</body>
+
+</html>

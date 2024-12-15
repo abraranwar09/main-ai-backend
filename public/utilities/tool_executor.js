@@ -313,8 +313,92 @@ async function scrapeWeb(url) {
     }
 }
 
+//computer control function
 
+async function executeComputerCommand(command) {
+    // Create a modal container
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100vw';
+    modal.style.height = '100vh';
+    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    modal.style.display = 'flex';
+    modal.style.justifyContent = 'center';
+    modal.style.alignItems = 'center';
+    modal.style.zIndex = '1000';
 
+    // Create a popup content
+    const popupContent = document.createElement('div');
+    popupContent.style.width = '90%';
+    popupContent.style.height = '90%';
+    popupContent.style.backgroundColor = 'white';
+    popupContent.style.borderRadius = '10px';
+    popupContent.style.overflow = 'hidden';
+    popupContent.style.position = 'relative';
+
+    // Create an iframe
+    const iframe = document.createElement('iframe');
+    iframe.src = 'http://localhost:6080/vnc.html';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+
+    // Append iframe to popup content
+    popupContent.appendChild(iframe);
+
+    // Append popup content to modal
+    modal.appendChild(popupContent);
+
+    // Append modal to body
+    document.body.appendChild(modal);
+
+    // Close modal when clicking outside of the popup content
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+
+    try {
+        const response = await fetch("http://localhost:3000/run-command", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ command })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        console.log(response);
+        const data = await response.text();
+
+        const structuredData = {
+            "status": "success",
+            "message": data
+        }
+
+        // Close the modal before returning data
+        document.body.removeChild(modal);
+
+        return structuredData;
+
+    } catch (error) {
+        console.error('Error executing computer command:', error);
+
+        // Close the modal in case of error
+        document.body.removeChild(modal);
+
+        return {
+            "status": "error",
+            "message": `There was an error executing the computer command. Please try again later.`
+        };
+    }
+}
 
 
 

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OhanaPal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body class="flex flex-col">
+    <!-- Header -->
+    <header class="flex justify-between items-center p-6">
+        <button class="bg-white/10 p-4 rounded-full">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </button>
+        <img src="https://4eca5ada943fe5450f1b9f217373973c.cdn.bubble.io/f1731061485485x750911034910286100/ohana-only.png" alt="OhanaPal Logo" class="h-10 w-auto">
+        <button class="bg-white/10 p-4 rounded-full">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01"/>
+            </svg>
+        </button>
+    </header>
+
+    <!-- Listening Input -->
+    <div class="px-6 my-4">
+        <div class="listening-input rounded-full py-4 px-6 text-center text-lg max-w-xl mx-auto">
+            Go ahead, I'm Listening...
+        </div>
+    </div>
+
+    <!-- Chat Messages -->
+    <div class="flex-1 px-6 space-y-6 overflow-y-auto" style="max-height: calc(100vh - 200px);">
+        <!-- Bot Message 1 -->
+        <div class="flex gap-4">
+            <div class="bot-avatar w-12 h-12 rounded-full flex items-center justify-center relative flex-shrink-0">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                </svg>
+                <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full"></div>
+            </div>
+            <div class="message-bubble rounded-2xl p-4 max-w-[80%]">
+                <p class="text-lg">Of course! Here are some motivational quote to inspire you:</p>
+                <p class="mt-2 text-lg">"Believe you can and you're halfway there." - Theodore Roosevelt</p>
+                <div class="flex gap-3 mt-4">
+                    <button class="bg-white/10 px-4 py-2 rounded-full flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                        <span>Copy</span>
+                    </button>
+                    <button class="bg-white/10 px-4 py-2 rounded-full flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                        </svg>
+                        <span>Share</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Message -->
+        <div class="flex justify-end">
+            <div class="bg-white/10 rounded-2xl px-6 py-3 text-lg">
+                Text to Image
+            </div>
+        </div>
+
+        <!-- Bot Message 2 -->
+        <div class="flex gap-4">
+            <div class="bot-avatar w-12 h-12 rounded-full flex items-center justify-center relative flex-shrink-0">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                </svg>
+                <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full"></div>
+            </div>
+            <div class="message-bubble rounded-2xl p-4">
+                <p class="text-lg mb-4">Sure!</p>
+                <div class="quote-card p-6">
+                    <div class="flex justify-between text-black mb-6">
+                        <span class="text-lg">InspireAI</span>
+                        <span>042</span>
+                    </div>
+                    <div class="space-y-4 text-black">
+                        <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                        </svg>
+                        <h2 class="text-4xl font-bold">Believe</h2>
+                        <p class="text-xl">you can and you're halfway there.</p>
+                        <p class="text-sm">- Theodore Roosevelt</p>
+                    </div>
+                </div>
+                <div class="flex gap-3 mt-4">
+                    <button class="bg-white/10 px-4 py-2 rounded-full flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        <span>Download</span>
+                    </button>
+                    <button class="bg-white/10 px-4 py-2 rounded-full flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                        </svg>
+                        <span>Share</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation (Fixed) -->
+    <div class="fixed bottom-0 left-0 right-0 p-4">
+        <div class="bottom-nav mx-auto max-w-xs rounded-full p-2 flex justify-between items-center">
+            <button class="p-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+                </svg>
+            </button>
+            <button class="ai-button p-4 rounded-full">
+                <div class="w-8 h-8 bg-white/20 rounded-full"></div>
+            </button>
+            <button class="p-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script src="chat.js"></script>
+</body>
+</html>
+

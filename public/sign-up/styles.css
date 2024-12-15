@@ -1,0 +1,60 @@
+.logo {
+    display: block;
+    margin: 0 auto 1rem;
+    max-width: 150px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #1a2b4b 0%, #0c1829 100%);
+    background-size: cover;
+    color: #e2e8f0;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+    mix-blend-mode: overlay;
+    animation: shimmer 5s infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+.relative {
+    position: relative;
+}
+
+#togglePassword {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #9CA3AF;
+    transition: color 0.2s;
+}
+
+#togglePassword:hover {
+    color: #F3F4F6;
+}

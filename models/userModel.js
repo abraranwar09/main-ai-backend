@@ -36,6 +36,26 @@ const userSchema = new mongoose.Schema({
     refreshToken: {
         type: String,
         default: ''
+    },
+    isAssessmentComplete: {
+        type: Boolean,
+        default: false
+    },
+    assessmentSummary: {
+        type: String,
+        default: ''
+    },
+    userName: {
+        type: String,
+        default: ''
+    },
+    age: {
+        type: Number,
+        default: 0
+    },
+    gender: {
+        type: String,
+        default: ''
     }
 });
 

@@ -1,6 +1,7 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const router = express.Router();
-const OpenAI = require('openai');
+const {OpenAI, toFile} = require('openai');
 const mongoose = require('mongoose');
 const { generateChatName } = require('../utils/nameGenerator');
 const ChatHistory = require('../models/chatHistoryModel');
@@ -14,6 +15,9 @@ const openai = new OpenAI({
 
 // Middleware to parse JSON bodies
 router.use(express.json());
+
+// Middleware to handle file uploads
+router.use(fileUpload());
 
 // Chat endpoint
 router.post('/chat', async (req, res) => {
@@ -37,7 +41,7 @@ router.post('/chat', async (req, res) => {
                 messages: [{
                     "role": "system", 
                     "content": custom_prompt || `
-                        Your name is CommandR. You are a helpful assistant. You can use your tools to help the user with their queries.
+                        Your name is OhanaPal. You are a helpful assistant. You can use your tools to help the user with their queries.
                         Format your responses as structured HTML with the appropriate tags and styling like lists, paragraphs, etc. 
                         Only respond in HTML no markdown. You have the ability to run parallel tool calls.
                     `
@@ -120,7 +124,7 @@ router.post('/chat', async (req, res) => {
 router.post('/tool-response', async (req, res) => {
     try {
         const { session_id, tool_responses } = req.body;
-        console.log('Received tool responses:', JSON.stringify(tool_responses, null, 2));
+        // console.log('Received tool responses:', JSON.stringify(tool_responses, null, 2));
         
         // Find chat history
         let chatHistory = await ChatHistory.findOne({ session_id });
@@ -151,7 +155,7 @@ router.post('/tool-response', async (req, res) => {
             });
         });
 
-        console.log('Messages before OpenAI call:', JSON.stringify(chatHistory.messages, null, 2));
+        // console.log('Messages before OpenAI call:', JSON.stringify(chatHistory.messages, null, 2));
 
         // Clean messages before sending to OpenAI
         const cleanedMessages = chatHistory.messages.map(msg => {
@@ -387,6 +391,119 @@ router.post('/scrape', async (req, res) => {
         });
     }
 });
+
+// Speech-to-text endpoint
+router.post('/speech-to-text', async (req, res) => {
+    try {
+        // Extract Base64 encoded data from the request
+        const { audioData } = req.body;
+
+        if (!audioData) {
+            return res.status(400).json({ error: 'Base64 audio data is required' });
+        }
+
+        // Decode Base64 to binary
+        const audioBuffer = Buffer.from(audioData, "base64");
+
+        // Use OpenAI API to transcribe the audio
+        const transcription = await openai.audio.transcriptions.create({
+            file: await toFile(audioBuffer, "audio.mp3", {
+                contentType: "audio/mpeg",
+            }),
+            model: "whisper-1",
+        });
+
+        // Send the transcription text as response
+        res.json({ transcription: transcription.text });
+
+    } catch (error) {
+        console.error("Error during transcription:", error);
+        res.status(500).json({ error: 'Error during transcription' });
+    }
+});
+
+// ... existing code ...
+
+// Text-to-Speech endpoint
+router.post('/text-to-speech', async (req, res) => {
+    try {
+        const { text } = req.body;
+
+        if (!text) {
+            return res.status(400).json({ error: 'Text is required' });
+        }
+
+        // Create speech from text using OpenAI
+        const mp3 = await openai.audio.speech.create({
+            model: "tts-1",
+            voice: "alloy",
+            input: text,
+        });
+
+        // Convert the response to a buffer
+        const buffer = Buffer.from(await mp3.arrayBuffer());
+
+        // Set headers for audio file response
+        res.set({
+            'Content-Type': 'audio/mpeg',
+            'Content-Disposition': 'attachment; filename="speech.mp3"',
+        });
+
+        // Send the audio file
+        res.send(buffer);
+
+    } catch (error) {
+        console.error('Text-to-Speech API Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// ... existing code ...
+
+// Clean HTML endpoint
+router.post('/clean-html', async (req, res) => {
+    try {
+        const { htmlText } = req.body;
+
+        if (!htmlText) {
+            return res.status(400).json({ error: 'htmlText is required' });
+        }
+
+        // Ensure htmlText is a string
+        const htmlTextString = JSON.stringify(htmlText);
+
+        // Use OpenAI to clean HTML and return plain text
+        
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4o",
+            messages: [
+                { 
+                    role: "system", 
+                    content: "You are a helpful assistant that removes all HTML tags from the input and returns plain text. Do not output any other formatting like markdown. Only output plain text"
+                },
+                {
+                    role: "user",
+                    content: htmlTextString // Ensure this is a string
+                }
+            ],
+            temperature: 0.0 // Use a low temperature for deterministic output
+        });
+
+        const plainText = completion.choices[0].message.content;
+        console.log('plantext', plainText);
+        
+
+        // Send the plain text as response
+        res.json({ plainText });
+
+    } catch (error) {
+        console.error('Clean HTML API Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// ... existing code ...
+
 
 module.exports = router;
 

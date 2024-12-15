@@ -39,6 +39,9 @@ async function handleToolCalls(data, skeletonLoader) {
                 case 'scrapeWeb':
                     functionResponse = await scrapeWeb(args.url);
                     break;
+                case 'executeComputerCommand':
+                    functionResponse = await executeComputerCommand(args.command);
+                    break;
                 default:
                     console.warn(`Unhandled function name: ${functionName}`);
                     return null;
@@ -73,8 +76,8 @@ async function handleToolCalls(data, skeletonLoader) {
 
         const responseData = await response.json();
         if (responseData.response) {
-            skeletonLoader.remove();
-            displayMessage(responseData.response, 'ai-message');
+            skeletonLoader.remove(); // Remove skeleton loader after displaying bot message
+            displayBotMessage(responseData.response);
         }
     }
 }

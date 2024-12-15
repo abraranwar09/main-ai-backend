@@ -1,0 +1,38 @@
+
+body {
+    background: linear-gradient(180deg, #1a2b4b 0%, #0c1829 100%);
+    min-height: 100vh;
+    color: white;
+    font-family: system-ui, -apple-system, sans-serif;
+    padding-bottom: 80px; /* Add padding to account for fixed menu */
+}
+
+.listening-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.message-bubble {
+    background: rgba(26, 43, 75, 0.6);
+    backdrop-filter: blur(10px);
+}
+
+.bot-avatar {
+    background: linear-gradient(135deg, #2d4a7c 0%, #1a2b4b 100%);
+}
+
+.quote-card {
+    background-color: #F5E6D8;
+    border-radius: 16px;
+}
+
+.bottom-nav {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.ai-button {
+    background: radial-gradient(circle at center, #3b82f6 0%, #2d4a7c 100%);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}

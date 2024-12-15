@@ -3,37 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <script>
-        //if we come to this page with no url params, redirect to login
-        if (!window.location.search) {
-            window.location.href = '/login';
+    <title>Welcome to OhanaPal</title>
+    <style>
+               body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(180deg, #1a2b4b 0%, #0c1829 100%);
         }
 
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
 
-      // Function to parse query parameters
-      function getQueryParams() {
-        const params = {};
-        window.location.search.substring(1).split("&").forEach(pair => {
-          const [key, value] = pair.split("=");
-          params[key] = decodeURIComponent(value);
-        });
-        return params;
-      }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-      // Extract tokens from URL and store in localStorage
-      const params = getQueryParams();
-      if (params.accessToken && params.refreshToken && params.email) {
-        localStorage.setItem('authToken', params.accessToken);
-        localStorage.setItem('refreshToken', params.refreshToken);
-        localStorage.setItem('email', params.email);
-        localStorage.setItem('userId', params.userId);
+    </style>
+</head>
+<body>
+  <div class="spinner"></div>
 
-        //redirect to the home page
-        window.location.href = '/chat';
-      }
+    <script>
+
+        // Function to check assessment status and redirect
+        function checkAssessmentAndRedirect(token) {
+            fetch('/users/me', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Invalid token');
+                }
+                return response.json();
+            })
+            .then(userData => {
+                if (!userData.isAssessmentComplete) {
+                    window.location.href = '/assessment';
+                } else {
+                    window.location.href = '/dashboard';
+                }
+            })
+            .catch(error => {
+                console.error('Error checking assessment status:', error);
+                window.location.href = '/login';
+            });
+        }
+
+        // Function to parse query parameters
+        function getQueryParams() {
+            const params = {};
+            window.location.search.substring(1).split("&").forEach(pair => {
+                const [key, value] = pair.split("=");
+                params[key] = decodeURIComponent(value);
+            });
+            return params;
+        }
+
+        // Extract tokens from URL and store in localStorage
+        const params = getQueryParams();
+        if (params.accessToken && params.refreshToken && params.email) {
+            localStorage.setItem('authToken', params.accessToken);
+            localStorage.setItem('refreshToken', params.refreshToken);
+            localStorage.setItem('email', params.email);
+            localStorage.setItem('userId', params.userId);
+            localStorage.setItem('token', params.token);
+            
+            checkAssessmentAndRedirect(params.token);
+        } else {
+            // No URL params, check localStorage
+            const storedToken = localStorage.getItem('token');
+            if (storedToken) {
+                checkAssessmentAndRedirect(storedToken);
+            } else {
+                // No tokens in URL or localStorage, redirect to login
+                window.location.href = '/login';
+            }
+        }
     </script>
 </body>
 </html>
